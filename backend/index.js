@@ -4,9 +4,18 @@ const cors= require('cors')
 const mongoose= require('mongoose')
 require('dotenv').config()
 // console.log(process.env)
+
+// Middlware
 app.use( express.json())
  app.use(express.urlencoded({extended:false}))
 app.use(cors())
+
+// security
+app.use((req,res,next)=>{
+   res.setHeader('Access-Control-Allow-Origin','*'),
+   res.setHeader('Access-Control-Allow-Headers','*'),
+   next()
+})
 app.get('/',(req,res)=>{
    res.send ("hello ji")
   })
@@ -43,7 +52,8 @@ console.log(req.body);
  })
   
  app.get('/todos',function(req,res){
-   
+   // Todo.find((err,data)=>{ if(err){res.status(500).send(err)}
+   // {res.status(201).send(data)}})
      Todo.find().then(items=> res.json(items))
     .catch(err=>console.log(err))
  })
